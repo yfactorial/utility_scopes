@@ -2,7 +2,15 @@ module UtilityScopes
   module Ordered
     
     def self.included(within)
-      within.class_eval { extend ClassMethods }
+      within.class_eval do
+        
+        # Provide an ordered scope
+        named_scope :ordered, lambda { |*order|
+          { :order => order.flatten.first || defined?(default_ordering) ? self.default_ordering : 'created_at DESC' }
+        }
+        
+        extend ClassMethods
+      end
     end
     
     module ClassMethods
@@ -19,11 +27,6 @@ module UtilityScopes
       #   Article.default_ordering #=> "published_at DESC"
       #
       def ordered_by(clause = 'created_at DESC')
-        
-        # Add named scope
-        named_scope :ordered, lambda { |*order|
-          { :order => order.flatten.first || self.default_ordering }
-        }
         
         # Give the class it's convenience "orderings" and "default_ordering" accessors
         metaclass.instance_eval do

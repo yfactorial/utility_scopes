@@ -4,7 +4,7 @@ module UtilityScopes
     def self.included(within)
       
       within.class_eval do
-        
+      
         # Provide default limit scope (can be overridden
         # if default_limit is called)
         named_scope :limit, lambda { |*num|
@@ -15,7 +15,7 @@ module UtilityScopes
       end
     end
     
-    module ClassMethods      
+    module ClassMethods
       
       # Set the default limit to use for the limit scope
       def default_limit(default)
