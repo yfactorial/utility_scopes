@@ -21,7 +21,9 @@ module UtilityScopes
       def ordered_by(clause = 'created_at DESC')
         
         # Add named scope
-        named_scope :ordered, lambda { |*order| { :order => order.blank? ? self.default_ordering : order } }
+        named_scope :ordered, lambda { |*order|
+          { :order => order.flatten.first || self.default_ordering }
+        }
         
         # Give the class it's convenience "orderings" and "default_ordering" accessors
         metaclass.instance_eval do
