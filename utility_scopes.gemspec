@@ -16,5 +16,5 @@ Gem::Specification.new do |s|
 		"lib/utility_scopes/eager.rb"]
   s.rdoc_options = ["--main", "README.rdoc"]
   s.extra_rdoc_files = ["README.rdoc"]
-  s.add_dependency("activerecord", ["> 2.1.0"])
+  s.add_dependency("activerecord", [">= 2.1.0"])
 end
