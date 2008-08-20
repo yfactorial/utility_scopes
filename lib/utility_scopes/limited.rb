@@ -1,5 +1,5 @@
 module UtilityScopes
-  module Limit
+  module Limited
     
     def self.included(within)
       
@@ -7,7 +7,7 @@ module UtilityScopes
       
         # Provide default limit scope (can be overridden
         # if default_limit is called)
-        named_scope :limit, lambda { |*num|
+        named_scope :limited, lambda { |*num|
           { :limit => num.flatten.first || (defined?(per_page) ? per_page : 10) }
         }
         
@@ -19,7 +19,7 @@ module UtilityScopes
       
       # Set the default limit to use for the limit scope
       def default_limit(default)
-        named_scope :limit, lambda { |*num| { :limit => num.flatten.first || default } }
+        named_scope :limited, lambda { |*num| { :limit => num.flatten.first || default } }
       end      
     end
   end
