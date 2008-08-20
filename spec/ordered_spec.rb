@@ -3,24 +3,26 @@ require File.join(File.dirname(__FILE__), *%w[abstract_spec])
 describe "Ordered scope" do
 
   before do
-    uses_fixture(:simple_article)
+    uses_fixture(:article)
   end
 
-  it "should default to a limit of 10" do
-    SimpleArticle.limit.proxy_options.should == {:limit => 10}
+  it "should default to created_at DESC" do
+    Article.ordered.proxy_options.should == {:order => 'created_at DESC'}
+    Article.default_ordering.should == 'created_at DESC'
   end
   
-  it "should allow the limit to be specified at runtime" do
-    SimpleArticle.limit(20).proxy_options.should == {:limit => 20}
+  it "should allow the order to be specified at runtime" do
+    Article.ordered('created_at ASC').proxy_options.should == {:order => 'created_at ASC'}
   end
   
-  it "should find the per_page value from will_paginate" do
-    ActiveRecord::Base.instance_eval { def per_page; 50; end }
-    SimpleArticle.limit.proxy_options.should == {:limit => 50}
+  it "should allow the default to be overidden by using ordered_by" do
+    Article.ordered_by 'published_at DESC'
+    Article.default_ordering.should == 'published_at DESC'
+    Article.ordered.proxy_options.should == {:order => 'published_at DESC'}
   end
   
-  it "should use the runtime limit value over the per_page value from will_paginate" do
-    ActiveRecord::Base.instance_eval { def per_page; 50; end }
-    SimpleArticle.limit(5).proxy_options.should == {:limit => 5}
+  it "should use the runtime sort value over the ordered_by value" do
+    Article.ordered_by 'published_at DESC'
+    Article.ordered('popularity ASC').proxy_options.should == {:order => 'popularity ASC'}
   end
 end

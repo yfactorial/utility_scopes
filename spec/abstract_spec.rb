@@ -1,11 +1,12 @@
 require File.join(File.dirname(__FILE__), *%w[spec_helper])
-require 'active_record'
+require 'activerecord'
 
 # Mimick plugin loading 
 $:.unshift "#{File.dirname(__FILE__)}/../lib"
 require 'utility_scopes/limit'
 require 'utility_scopes/ordered'
 require 'utility_scopes/eager'
+
 ActiveRecord::Base.class_eval do
   include UtilityScopes::Limit
   include UtilityScopes::Ordered
