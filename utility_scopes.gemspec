@@ -8,9 +8,9 @@ Gem::Specification.new do |s|
   s.description = "A collection of utilitarian named scopes providing common functionality for ActiveRecord models."
   s.has_rdoc = true
   s.authors  = ["Ryan Daigle"]
-  s.files    = ["init.rb", 
-		"README.rdoc", 
+  s.files    = ["README.rdoc", 
 		"utility_scopes.gemspec", 
+		"lib/utility_scopes.rb",
 		"lib/utility_scopes/limited.rb", 
 		"lib/utility_scopes/ordered.rb", 
 		"lib/utility_scopes/eager.rb"]
