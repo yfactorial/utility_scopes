@@ -4,7 +4,7 @@ Gem::Specification.new do |s|
   s.date     = "2008-08-20"
   s.summary  = "A collection of utilitarian named scopes providing common functionality for ActiveRecord models"
   s.email    = "ryan@yfactorial.com"
-  s.homepage = "http://github.com/rwdaigle/utility_scopes"
+  s.homepage = "http://github.com/yfactorial/utility_scopes"
   s.description = "A collection of utilitarian named scopes providing common functionality for ActiveRecord models."
   s.has_rdoc = true
   s.authors  = ["Ryan Daigle"]
