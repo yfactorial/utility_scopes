@@ -14,11 +14,17 @@ Utility scopes has the following dependencies:
 * activerecord >= 2.1.0
 * rspec >= 1.1.4 (for specs only, not runtime)
 
-h3. Installation
+h2. Installation
 
 To install the utility_scopes gem run the following:
 
   sudo gem install yfactorial-utility_scopes
+  
+And to enable the scopes in your project just require @utility_scopes@:
+
+  require 'utility_scopes'
+
+h3. Rails
 
 You can also specify the gem dependency if you're running Rails 2.1 in your @config/environment.rb@ file:
 
@@ -27,3 +33,70 @@ You can also specify the gem dependency if you're running Rails 2.1 in your @con
     config.gem "yfactorial-utility_scopes", :lib => 'utility_scopes', 
       :source => 'http://gems.github.com/'
   end
+
+You don't need to @require 'utility_scopes'@ in this case as Rails will automatically require it.
+  
+h2. Scopes
+
+Most examples assume the following @Article@ class:
+
+  class Article < ActiveRecord::Base
+    has_many :comments  # (assume each comment also has a :user)
+    has_many :contributors
+    belongs_to :author, :class_name => 'User'
+  end
+
+Named scopes are chainable by nature, meaning that the following is possible:
+
+  Article.with(:comments).except(1, 2, 3).ordered.limited(5)
+  
+Any exceptions to chainable scopes will be specified in their section below.
+  
+h3. With (eager-loading)
+
+The @with@ scope let's you eager load your model associations.  So instead of having to invoke @find(:all, :include => [:association1, :association2])@ just pass these association names into
+the @with@ named scope:
+
+  # Get all articles and eager-load their comments, each comments' user, article contributors
+  # and the article author.
+  Article.with({ :comments => :user }, :contributors, :author)
+  
+  # Get all articles and eager-load their comments
+  Article.with(:comments)
+
+Again, just pass in the same arguments into @eager@ that you would pass in as the @:include@ value to "ActiveRecord::Base#find":http://api.rubyonrails.com/classes/ActiveRecord/Base.html#M001298
+
+h3. Except
+
+_contributed by danielmorrison_
+
+@except@ excludes the given records from the result set:
+
+  Article.except(1, 2, 3)           # Get all articles whose id is NOT 1, 2 or 3
+  Article.except(@article)          # Get all articles except the given one
+  Article.except(@new_articles)     # Get all non-new articles
+  
+h3. Limited
+
+_Note: the @limited@ scope cannot be chained with any other @limit@ clauses_
+
+@limited@ lets you place a limit on the number of results returned.  By default
+the scope will limit the result set to 10 results if no argument is passed in:
+
+  Article.limited                # Get the first 10 articles
+  Article.except(1).limited(5)   # Get the first 5 articles where id != 1
+
+If you're using "will_paginate":http://github.com/mislav/will_paginate/tree/master and don't
+pass an argument to the scope then the @per_page@ value that is used by will_paginate
+will be used:
+
+  Article.per_page   #=> 20
+  Article.limited    # Get the first 20 articles   
+
+If you would like to specify a different default value you can do so on a per class basis
+with @default_limit@:
+
+  Article.default_limit 15  # Set the default limit to be 15  
+  Article.limited           # Get the first 15 articles
+  
+h3. Ordered
