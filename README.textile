@@ -1,0 +1,29 @@
+h1. Utility Scopes
+
+h2. Summary
+
+Utility scopes provides a collection of utilitarian "named scopes":http://api.rubyonrails.com/classes/ActiveRecord/NamedScope/ClassMethods.html#M001246 for use with your
+ActiveRecord models.
+
+
+Utility scopes was originally announced "here":http://ryandaigle.com/articles/2008/8/20/named-scope-it-s-not-just-for-conditions-ya-know and has expanded in scope and functionality since then thanks to user contributions.  See the
+"CHANGELOG":http://github.com/yfactorial/utility_scopes/tree/master/CHANGELOG for contribution details. 
+
+Utility scopes has the following dependencies:
+
+* activerecord >= 2.1.0
+* rspec >= 1.1.4 (for specs only, not runtime)
+
+h3. Installation
+
+To install the utility_scopes gem run the following:
+
+  sudo gem install yfactorial-utility_scopes
+
+You can also specify the gem dependency if you're running Rails 2.1 in your @config/environment.rb@ file:
+
+  Rails::Initializer.run do |config|
+    # ...
+    config.gem "yfactorial-utility_scopes", :lib => 'utility_scopes', 
+      :source => 'http://gems.github.com/'
+  end
