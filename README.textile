@@ -96,16 +96,18 @@ will be used:
 If you would like to specify a different default value you can do so on a per class basis
 using @default_limit@:
 
+  <pre><code>
   # Set the default limit to be 15  
   class Article < ActiveRecord::Base
     default_limit 15
   end
   
   Article.limited  # Get the first 15 articles
+  </code></pre>
   
 h3. Ordered
 
-_Note: the @ordered@ scope cannot be chained with any other @ordered@ clauses_
+_Note: the @ordered@ scope cannot be chained with any other @order@ clauses_
 
 @ordered@ lets you dynamically specify the ordering of your result set.  If no
 arguments are given it will default to @created_at DESC@:
