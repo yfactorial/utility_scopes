@@ -78,8 +78,6 @@ _contributed by danielmorrison_
   
 h3. Limited
 
-_Note: the @limited@ scope cannot be chained with any other @limit@ clauses_
-
 @limited@ lets you place a limit on the number of results returned.  By default
 the scope will limit the result set to 10 results if no argument is passed in:
 
@@ -94,9 +92,37 @@ will be used:
   Article.limited    # Get the first 20 articles   
 
 If you would like to specify a different default value you can do so on a per class basis
-with @default_limit@:
+using @default_limit@:
 
-  Article.default_limit 15  # Set the default limit to be 15  
-  Article.limited           # Get the first 15 articles
+  # Set the default limit to be 15  
+  class Article < ActiveRecord::Base
+    default_limit 15
+  end
+  
+  Article.limited  # Get the first 15 articles
   
 h3. Ordered
+
+_Note: the @ordered@ scope cannot be chained with any other @ordered@ clauses_
+
+@ordered@ lets you dynamically specify the ordering of your result set.  If no
+arguments are given it will default to @created_at DESC@:
+
+  Article.ordered              # Get all articles ordered by "created_at DESC"
+  Article.ordered(:id)         # Get all articles ordered by "id"
+  Article.ordered("rank ASC")  # Get all articles ordered by "rank ASC"  
+
+If you would like to specify a different default sort order you can do so on a per class basis
+using @ordered_by@:
+
+  # Set the default order to be "published_at DESC"
+  class Article < ActiveRecord::Base
+    ordered_by 'published_at DESC'
+  end
+ 
+  Article.ordered              # Get all articles ordered by "published_at DESC"
+  Article.ordered("rank ASC")  # Get all articles ordered by "rank ASC"
+
+The current default ordering for a class can always be accessed via @default_ordering@:
+
+  Article.default_ordering #=> "published_at DESC"

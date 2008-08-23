@@ -25,4 +25,8 @@ describe "Ordered scope" do
     Article.ordered_by 'published_at DESC'
     Article.ordered('popularity ASC').proxy_options.should == {:order => 'popularity ASC'}
   end
+  
+  it "should be able to handle symbol order criteria" do
+    Article.ordered(:id).proxy_options.should == { :order => :id }
+  end
 end
