@@ -57,12 +57,14 @@ h3. With (eager-loading)
 The @with@ scope let's you eager load your model associations.  So instead of having to invoke @find(:all, :include => [:association1, :association2])@ just pass these association names into
 the @with@ named scope:
 
+  <pre><code>
   # Get all articles and eager-load their comments, each comments' user, article contributors
   # and the article author.
   Article.with({ :comments => :user }, :contributors, :author)
   
   # Get all articles and eager-load their comments
   Article.with(:comments)
+  </code></pre>
 
 Again, just pass in the same arguments into @eager@ that you would pass in as the @:include@ value to "ActiveRecord::Base#find":http://api.rubyonrails.com/classes/ActiveRecord/Base.html#M001298
 
@@ -115,6 +117,7 @@ arguments are given it will default to @created_at DESC@:
 If you would like to specify a different default sort order you can do so on a per class basis
 using @ordered_by@:
 
+  <pre><code>
   # Set the default order to be "published_at DESC"
   class Article < ActiveRecord::Base
     ordered_by 'published_at DESC'
@@ -122,6 +125,7 @@ using @ordered_by@:
  
   Article.ordered              # Get all articles ordered by "published_at DESC"
   Article.ordered("rank ASC")  # Get all articles ordered by "rank ASC"
+  </code></pre>
 
 The current default ordering for a class can always be accessed via @default_ordering@:
 
