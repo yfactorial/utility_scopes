@@ -1,8 +1,8 @@
 Gem::Specification.new do |s|
   
   s.name     = "utility_scopes"
-  s.version  = "0.2.0"
-  s.date     = "2008-08-21"
+  s.version  = "0.2.1"
+  s.date     = "2008-09-08"
   
   s.summary  = "A collection of utilitarian named scopes providing common functionality for ActiveRecord models"
   s.email    = "ryan@yfactorial.com"

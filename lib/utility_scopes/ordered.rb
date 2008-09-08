@@ -1,3 +1,4 @@
+#TODO: use base_class to get rid off duplication?
 module UtilityScopes
   module Ordered
     

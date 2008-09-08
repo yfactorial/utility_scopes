@@ -1,3 +1,8 @@
+0.2.1
+
+* Fixed except named scope not correctly determining its base class
+  (as reported by Marcus Crafter: http://github.com/crafterm)
+
 0.2.0
 
 * Added except scope from danielmorrison (http://github.com/danielmorrison)
