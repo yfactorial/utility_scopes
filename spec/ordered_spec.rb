@@ -18,6 +18,20 @@ describe "Ordered scope" do
   it "should allow the order to be specified at runtime with 2 args" do
     Article.ordered(:popularity, :asc).proxy_options.should == {:order => 'popularity ASC'}
   end
+
+  it "should sort by column popularity when calling order_by_popularity" do
+    require 'ostruct'
+    columns = [OpenStruct.new({:name => 'popularity'})]
+    Article.stub!(:columns).and_return(columns)
+    Article.order_by_popularity.proxy_options.should == {:order => 'popularity'}
+  end
+  
+  it "should raise an error when column does not exist" do
+    require 'ostruct'
+    columns = [OpenStruct.new({:name => 'popularity'})]
+    Article.stub!(:columns).and_return(columns)
+    lambda{ Article.order_by_unknown_columns }.should raise_error
+  end
   
   it "should have an alias" do
     Article.order_by(:popularity, :asc).proxy_options.should == {:order => 'popularity ASC'}

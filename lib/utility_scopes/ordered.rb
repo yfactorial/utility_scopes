@@ -14,7 +14,9 @@ module UtilityScopes
         })
         
         class << self
+          # Set alias order_by
           alias_method :order_by, :ordered
+          # Set alias sort_by
           alias_method :sort_by, :ordered
           # Set the default order
           define_method(:default_ordering) { 'created_at DESC' }
@@ -46,6 +48,15 @@ module UtilityScopes
         
         metaclass.instance_eval do
           define_method(:default_ordering) { clause }
+        end
+      end
+      
+      def method_missing(method, *args, &block)
+        col = method.to_s.match(/^(order_by_|sort_by_)(.*)$/)[2] rescue false
+        if col && self.columns.collect{ |c| c.name }.include?(col)
+          return self.order_by(col, *args, &block)
+        else
+          super
         end
       end
       
