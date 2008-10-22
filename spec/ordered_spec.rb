@@ -2,7 +2,7 @@ require File.join(File.dirname(__FILE__), *%w[abstract_spec])
 
 describe "Ordered scope" do
 
-  before do
+  before(:each) do
     uses_fixture(:article)
   end
 
@@ -13,6 +13,10 @@ describe "Ordered scope" do
   
   it "should allow the order to be specified at runtime" do
     Article.ordered('created_at ASC').proxy_options.should == {:order => 'created_at ASC'}
+  end
+  
+  it "should allow the order to be specified at runtime with 2 args" do
+    Article.ordered(:popularity, :asc).proxy_options.should == {:order => 'popularity ASC'}
   end
   
   it "should allow the default to be overidden by using ordered_by" do
