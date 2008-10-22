@@ -2,20 +2,21 @@
 module UtilityScopes
   module Ordered
     
-    def self.included(within)
-      within.class_eval do
-        
+    def self.included(base)
+      base.extend ClassMethods
+      
+      base.class_eval do
         # Provide an ordered scope
-        named_scope :ordered, lambda { |*order|
-          { :order => order.flatten.first || self.default_ordering }
-        }
+        named_scope(:ordered, lambda { |*order|
+          (order.size == 2) ?
+            { :order => "#{order.flatten.first} #{order.flatten.last.to_s.upcase}" } :
+            { :order => order.flatten.first || self.default_ordering }
+        })
         
         # Set the default order
         class << self
           define_method(:default_ordering) { 'created_at DESC' }
         end
-        
-        extend ClassMethods
       end
     end
     
@@ -33,12 +34,11 @@ module UtilityScopes
       #   Article.default_ordering #=> "published_at DESC"
       #
       def ordered_by(clause)
-        
-        # Override named scope on AR::Base so we can access default_ordering
-        # on subclass
-        named_scope :ordered, lambda { |*order|
-          { :order => order.flatten.first || self.default_ordering }
-        }
+        named_scope(:ordered, lambda { |*order|
+          (order.size == 2) ?
+            { :order => "#{order.flatten.first} #{order.flatten.last.to_s.upcase}" } :
+            { :order => order.flatten.first || default_ordering }
+        })
         
         metaclass.instance_eval do
           define_method(:default_ordering) { clause }
