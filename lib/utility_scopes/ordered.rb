@@ -13,8 +13,10 @@ module UtilityScopes
             { :order => order.flatten.first || self.default_ordering }
         })
         
-        # Set the default order
         class << self
+          alias_method :order_by, :ordered
+          alias_method :sort_by, :ordered
+          # Set the default order
           define_method(:default_ordering) { 'created_at DESC' }
         end
       end
@@ -34,6 +36,8 @@ module UtilityScopes
       #   Article.default_ordering #=> "published_at DESC"
       #
       def ordered_by(clause)
+        # Override named scope on AR::Base so we can access default_ordering
+        # on subclass
         named_scope(:ordered, lambda { |*order|
           (order.size == 2) ?
             { :order => "#{order.flatten.first} #{order.flatten.last.to_s.upcase}" } :

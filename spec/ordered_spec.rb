@@ -19,6 +19,10 @@ describe "Ordered scope" do
     Article.ordered(:popularity, :asc).proxy_options.should == {:order => 'popularity ASC'}
   end
   
+  it "should have an alias" do
+    Article.order_by(:popularity, :asc).proxy_options.should == {:order => 'popularity ASC'}
+  end
+  
   it "should allow the default to be overidden by using ordered_by" do
     Article.ordered_by 'published_at DESC'
     Article.default_ordering.should == 'published_at DESC'
