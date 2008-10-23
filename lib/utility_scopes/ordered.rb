@@ -8,8 +8,8 @@ module UtilityScopes
       base.class_eval do
         # Provide an ordered scope
         named_scope(:ordered, lambda { |*order|
-          (order.size == 2) ?
-            { :order => "#{order.flatten.first} #{order.flatten.last.to_s.upcase}" } :
+          (order.size == 1 && order.first.is_a?(Hash)) ?
+            { :order => order.first.collect{|(k,v)| "#{k} #{v.to_s.upcase}" }.join(', ') } :
             { :order => order.flatten.first || self.default_ordering }
         })
         
@@ -41,9 +41,9 @@ module UtilityScopes
         # Override named scope on AR::Base so we can access default_ordering
         # on subclass
         named_scope(:ordered, lambda { |*order|
-          (order.size == 2) ?
-            { :order => "#{order.flatten.first} #{order.flatten.last.to_s.upcase}" } :
-            { :order => order.flatten.first || default_ordering }
+          (order.size == 1 && order.first.is_a?(Hash)) ?
+            { :order => order.first.collect{|(k,v)| "#{k} #{v.to_s.upcase}" }.join(', ') } :
+            { :order => order.flatten.first || self.default_ordering }
         })
         
         metaclass.instance_eval do

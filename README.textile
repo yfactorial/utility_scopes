@@ -116,7 +116,7 @@ arguments are given it will default to @created_at DESC@:
   Article.ordered(:id)            # Get all articles ordered by "id"
   Article.ordered("rank ASC")     # Get all articles ordered by "rank ASC"
   Article.order_by(:id)           # order_by and sort_by are alias to ordered
-  Article.order_by(:id, :desc)    # :desc and :asc can be set as second parameter
+  Article.order_by(:id => :desc, :popularity => :asc)   # can take a hash as parameter
   Article.order_by_id             # can be set as a sentence
 
 If you would like to specify a different default sort order you can do so on a per class basis
