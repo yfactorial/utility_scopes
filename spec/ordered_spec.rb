@@ -15,8 +15,12 @@ describe "Ordered scope" do
     Article.ordered('created_at ASC').proxy_options.should == {:order => 'created_at ASC'}
   end
   
-  it "should allow the order to be specified at runtime with 2 args" do
-    Article.ordered(:popularity => :asc, :second_param => :desc).proxy_options.should == {:order => 'popularity ASC, second_param DESC'}
+  it "should allow the order to arrays as arg" do
+    Article.ordered([:popularity, :asc], [:second_param, :desc]).proxy_options.should == {:order => 'popularity ASC, second_param DESC'}
+  end
+  
+  it "should allow the order with several args" do
+    Article.ordered(:popularity, :updated_at).proxy_options.should == {:order => 'popularity, updated_at'}
   end
 
   it "should sort by column popularity when calling order_by_popularity" do
@@ -34,7 +38,7 @@ describe "Ordered scope" do
   end
   
   it "should have an alias" do
-    Article.order_by(:popularity => :asc).proxy_options.should == {:order => 'popularity ASC'}
+    Article.order_by([:popularity, :asc]).proxy_options.should == {:order => 'popularity ASC'}
   end
   
   it "should allow the default to be overidden by using ordered_by" do
@@ -49,6 +53,6 @@ describe "Ordered scope" do
   end
   
   it "should be able to handle symbol order criteria" do
-    Article.ordered(:id).proxy_options.should == { :order => :id }
+    Article.ordered(:id).proxy_options.should == { :order => 'id' }
   end
 end
