@@ -15,8 +15,14 @@ describe "Ordered scope" do
     Article.ordered('created_at ASC').proxy_options.should == {:order => 'created_at ASC'}
   end
   
-  it "should allow the order to arrays as arg" do
+  it "should allow the order to use arrays as arg" do
     Article.ordered([:popularity, :asc], [:second_param, :desc]).proxy_options.should == {:order => 'popularity ASC, second_param DESC'}
+  end
+  
+  it "should allow the order hash as arg" do
+    if (PLATFORM=~/java/ || RUBY_VERSION=~/1\.9.*/)
+      Article.ordered(:popularity => :asc, :second_param => :desc).proxy_options.should == {:order => 'popularity ASC, second_param DESC'}
+    end
   end
   
   it "should allow the order with several args" do

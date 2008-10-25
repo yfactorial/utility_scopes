@@ -8,9 +8,16 @@ module UtilityScopes
       base.class_eval do
         # Provide an ordered scope
         named_scope(:ordered, lambda { |*order|
-          { :order => order.empty? ?
-            self.default_ordering :
-            order.collect{|e| e.is_a?(Array) ? "#{e[0]} #{e[1].to_s.upcase}" : e}.join(', ') }
+          { :order => case
+            when order.empty?
+              self.default_ordering
+            # allow hash support for jruby or ruby 1.9
+            when order.size == 1 && order[0].is_a?(Hash) && (PLATFORM=~/java/ || RUBY_VERSION=~/1\.9.*/)
+              order.first.collect{|(k,v)| "#{k} #{v.to_s.upcase}"}.join(', ')
+            else
+              order.collect{|e| e.is_a?(Array) ? "#{e[0]} #{e[1].to_s.upcase}" : e}.join(', ')
+            end
+          }
         })
         
         class << self
@@ -41,9 +48,16 @@ module UtilityScopes
         # Override named scope on AR::Base so we can access default_ordering
         # on subclass
         named_scope(:ordered, lambda { |*order|
-          { :order => order.empty? ?
-            self.default_ordering :
-            order.collect{|e| e.is_a?(Array) ? "#{e[0]} #{e[1].to_s.upcase}" : e}.join(', ') }
+          { :order => case
+            when order.empty?
+              self.default_ordering
+            # allow hash support for jruby or ruby 1.9
+            when order.size == 1 && order[0].is_a?(Hash) && (PLATFORM=~/java/ || RUBY_VERSION=~/1\.9.*/)
+              order.first.collect{|(k,v)| "#{k} #{v.to_s.upcase}"}.join(', ')
+            else
+              order.collect{|e| e.is_a?(Array) ? "#{e[0]} #{e[1].to_s.upcase}" : e}.join(', ') 
+            end
+          }
         })
         
         metaclass.instance_eval do
