@@ -18,7 +18,7 @@ h2. Installation
 
 To install the utility_scopes gem run the following:
 
-  sudo gem install yfactorial-utility_scopes
+  sudo gem install yfactorial-utility_scopes --source http://gems.github.com
   
 And to enable the scopes in your project just require @utility_scopes@:
 
