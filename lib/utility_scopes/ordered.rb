@@ -60,7 +60,7 @@ module UtilityScopes
           }
         })
         
-        metaclass.instance_eval do
+        eigenclass.instance_eval do
           define_method(:default_ordering) { clause }
         end
       end
@@ -76,7 +76,7 @@ module UtilityScopes
       
       private
       
-      def metaclass; class << self; self end; end
+      def eigenclass; class << self; self end; end
     end
   end
 end
