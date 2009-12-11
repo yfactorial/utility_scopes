@@ -18,7 +18,7 @@ h2. Installation
 
 To install the utility_scopes gem run the following:
 
-  sudo gem install yfactorial-utility_scopes --source http://gems.github.com
+  sudo gem install utility_scopes
   
 And to enable the scopes in your project just require @utility_scopes@:
 
@@ -30,8 +30,7 @@ You can also specify the gem dependency if you're running Rails 2.1 in your @con
 
   Rails::Initializer.run do |config|
     # ...
-    config.gem "yfactorial-utility_scopes", :lib => 'utility_scopes', 
-      :source => 'http://gems.github.com/'
+    config.gem "utility_scopes"
   end
 
 You don't need to @require 'utility_scopes'@ in this case as Rails will automatically require it.
