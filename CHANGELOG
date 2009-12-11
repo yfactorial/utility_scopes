@@ -1,3 +1,11 @@
+0.3.0
+
+Added only_pks named scope (and pks class method)
+
+0.2.3
+
+Renamed metaclass to eigenclass to avoid conflict w/ Rails' method of the same name 
+
 0.2.2
 
 * More flexible @ordered@ syntax (by jney - http://github.com/jney)

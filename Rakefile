@@ -21,3 +21,19 @@ Rake::RDocTask.new(:rdoc) do |rdoc|
   rdoc.options << '--inline-source' << '--charset=UTF-8'
   rdoc.options << '--webcvs=http://github.com/yfactorial/utility_scopes/tree/master/'
 end
+
+# Rakefile
+begin
+  require 'jeweler'
+  Jeweler::Tasks.new do |gemspec|
+    gemspec.name = "utility_scopes"
+    gemspec.summary = "A collection of utilitarian named scopes providing common functionality for ActiveRecord models."
+    gemspec.description = "A collection of utilitarian named scopes providing common functionality for ActiveRecord models."
+    gemspec.email = "ryan@digitaltoniq.com"
+    gemspec.homepage = "http://github.com/yfactorial/utility_scopes"
+    gemspec.authors = ["Ryan Daigle", "Daniel Morrison"]
+  end
+  Jeweler::GemcutterTasks.new
+rescue LoadError
+  puts "Jeweler not available. Install it with: sudo gem install jeweler -s http://gemcutter.org"
+end
