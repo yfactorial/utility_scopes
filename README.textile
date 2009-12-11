@@ -138,3 +138,11 @@ using @ordered_by@:
 The current default ordering for a class can always be accessed via @default_ordering@:
 
   Article.default_ordering #=> "published_at DESC"
+
+h3. PKs
+
+
+@only_pks_@ gets only the primary key column.  This is useful when combined with the @pks@ class method to get the primary key values as an array:
+
+  Article.published.limited(10).only_pks   # Get the first 10 published articles with only the 'id' value populated [<Article:XX>, <Article:XX>, ...]
+  Article.published.limited(10).pks   # Get the first 10 published article ids: [1, 2, 3 ...]
